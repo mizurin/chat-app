@@ -1,0 +1,53 @@
+<html>
+  <head>
+    <title>chat site</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <div>
+        <input type="text" id="message_text" />
+        <button type="button" id="message_send">Send</button>
+      </div>
+      <div id="messages">
+        <ul id="message_list"></ul>
+      </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+
+    <script>
+      $(function () {
+        //socketの作成
+        var socket = io();
+
+        //メッセージの送信
+        var emit = function () {
+          if ($("#message_text").val() != "") {
+            socket.emit("message", $("#message_text").val());
+            $("#message_text").val("");
+          }
+        };
+
+        //メッセージの受信
+        socket.on("message", function (data) {
+          $("#message_list").prepend($("<li>").text(data));
+        });
+
+        //テキストボックスとボタンの動作
+        $("#message_text").keypress(function (event) {
+          if (event.which === 13) {
+            emit();
+          }
+        });
+        $("#message_send").click(function () {
+          emit();
+        });
+      });
+    </script>
+  </body>
+</html>
