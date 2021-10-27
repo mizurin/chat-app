@@ -6,7 +6,7 @@ const server = http.Server(app);
 //const io = require("socket.io")(server);
 const io = require('socket.io')(server, {
     cors: {
-        origin: "http://localhost:3000",
+        origin: "http://localhost:5000",
         methods: ["GET", "POST"],
         transports: ['websocket', 'polling'],
         credentials: true
@@ -14,7 +14,7 @@ const io = require('socket.io')(server, {
     allowEIO3: true
 });
 //サーバーのポート
-const port = process.env.port || 3000;
+const port = process.env.port || 5000;
 
 //httpのレスポンス
 app.get("/", (req, res) => {
